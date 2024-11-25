@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pawsitive-X Disease Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #d6eaff, #ffffff); /* Light blue to white gradient */
+            color: #333; /* Black text */
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white background */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .title {
+            text-align: center;
+            color: #003366;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #003366;
+        }
+        input[type="text"], input[type="number"], input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+        .btn {
+            background-color: #003366;
+            color: white;
+            padding: 12px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #005b8a;
+        }
+        .result-card {
+            padding: 20px;
+            margin-top: 30px;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .hidden {
+            display: none;
+        }
+        #download-report {
+            margin-top: 20px;
+            display: block;
+            text-align: center;
+        }
+    </style>
+
+    <!-- Add jsPDF Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Pawsitive-X Disease Prediction</h1>
+        <form id="prediction-form">
+            <!-- Pet Details -->
+            <div class="form-group">
+                <label for="Pet_Name">Pet's Name</label>
+                <input type="text" name="Pet_Name" id="Pet_Name" placeholder="e.g., Bruno" required>
+            </div>
+            <div class="form-group">
+                <label for="Animal_Type">Animal Type</label>
+                <input type="text" name="Animal_Type" id="Animal_Type" placeholder="e.g., Dog" required>
+            </div>
+            <div class="form-group">
+                <label for="Breed">Breed</label>
+                <input type="text" name="Breed" id="Breed" placeholder="e.g., Labrador" required>
+            </div>
+            <div class="form-group">
+                <label for="Age">Age</label>
+                <input type="number" name="Age" id="Age" placeholder="e.g., 4" required>
+            </div>
+            <div class="form-group">
+                <label for="Gender">Gender</label>
+                <input type="text" name="Gender" id="Gender" placeholder="e.g., Male" required>
+            </div>
+            <div class="form-group">
+                <label for="Weight">Weight (kg)</label>
+                <input type="number" step="0.1" name="Weight" id="Weight" placeholder="e.g., 25.0" required>
+            </div>
+            <div class="form-group">
+                <label for="Image">Upload Pet Image</label>
+                <input type="file" name="Image" id="Image" accept="image/*">
+            </div>
+
+            <!-- Symptoms -->
+            <div class="form-group">
+                <label for="Symptom_1">Symptom 1</label>
+                <input type="text" name="Symptom_1" id="Symptom_1" placeholder="e.g., Fever" required>
+            </div>
+            <div class="form-group">
+                <label for="Symptom_2">Symptom 2</label>
+                <input type="text" name="Symptom_2" id="Symptom_2" placeholder="e.g., Vomiting" required>
+            </div>
+            <div class="form-group">
+                <label for="Symptom_3">Symptom 3</label>
+                <input type="text" name="Symptom_3" id="Symptom_3" placeholder="e.g., Lethargy" required>
+            </div>
+            <div class="form-group">
+                <label for="Symptom_4">Symptom 4</label>
+                <input type="text" name="Symptom_4" id="Symptom_4" placeholder="e.g., Appetite Loss" required>
+            </div>
+            <div class="form-group">
+                <label for="Duration">Duration (days)</label>
+                <input type="text" name="Duration" id="Duration" placeholder="e.g., 3 days" required>
+            </div>
+
+            <!-- Binary Symptoms -->
+            <div class="form-group">
+                <label for="Appetite_Loss">Appetite Loss</label>
+                <input type="text" name="Appetite_Loss" id="Appetite_Loss" placeholder="Yes/No" required>
+            </div>
+            <div class="form-group">
+                <label for="Vomiting">Vomiting</label>
+                <input type="text" name="Vomiting" id="Vomiting" placeholder="Yes/No" required>
+            </div>
+            <div class="form-group">
+                <label for="Diarrhea">Diarrhea</label>
+                <input type="text" name="Diarrhea" id="Diarrhea" placeholder="Yes/No" required>
+            </div>
+            <div class="form-group">
+                <label for="Coughing">Coughing</label>
+                <input type="text" name="Coughing" id="Coughing" placeholder="Yes/No" required>
+            </div>
+            <div class="form-group">
+                <label for="Labored_Breathing">Labored Breathing</label>
+                <input type="text" name="Labored_Breathing" id="Labored_Breathing" placeholder="Yes/No" required>
+            </div>
+            <div class="form-group">
+                <label for="Lameness">Lameness</label>
+                <input type="text" name="Lameness" id="Lameness" placeholder="Yes/No" required>
+            </div>
+            <div class="form-group">
+                <label for="Skin_Lesions">Skin Lesions</label>
+                <input type="text" name="Skin_Lesions" id="Skin_Lesions" placeholder="Yes/No" required>
+            </div>
+            <div class="form-group">
+                <label for="Nasal_Discharge">Nasal Discharge</label>
+                <input type="text" name="Nasal_Discharge" id="Nasal_Discharge" placeholder="Yes/No" required>
+            </div>
+            <div class="form-group">
+                <label for="Eye_Discharge">Eye Discharge</label>
+                <input type="text" name="Eye_Discharge" id="Eye_Discharge" placeholder="Yes/No" required>
+            </div>
+
+            <!-- Vital Signs -->
+            <div class="form-group">
+                <label for="Body_Temperature">Body Temperature (°C)</label>
+                <input type="number" step="0.1" name="Body_Temperature" id="Body_Temperature" placeholder="e.g., 37.5" required>
+            </div>
+            <div class="form-group">
+                <label for="Heart_Rate">Heart Rate (bpm)</label>
+                <input type="number" name="Heart_Rate" id="Heart_Rate" placeholder="e.g., 120" required>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn">Predict Disease</button>
+        </form>
+        
+        <!-- Result Section -->
+        <div id="result"></div>
+
+        <!-- Download Report Button -->
+        <button id="download-report" class="btn hidden">Download Report</button>
+    </div>
+
+    <script>
+        document.getElementById('prediction-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const response = await fetch('/predict', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            
+            // Display result
+            document.getElementById('result').innerHTML = `<div class="result-card">
+                <h2>Predicted Disease:</h2>
+                <p>${result.disease}</p>
+            </div>`;
+            
+            // Show download report button
+            document.getElementById('download-report').classList.remove('hidden');
+            
+            // Handle report download
+            document.getElementById('download-report').addEventListener('click', () => generatePDF(result.disease, formData));
+        });
+
+        function generatePDF(disease, formData) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const petName = formData.get('Pet_Name');
+            const animalType = formData.get('Animal_Type');
+            const breed = formData.get('Breed');
+            const symptoms = formData.get('Symptom_1') + ', ' + formData.get('Symptom_2') + ', ' + formData.get('Symptom_3') + ', ' + formData.get('Symptom_4');
+            
+            doc.setFontSize(16);
+            doc.text("Pawsitive-X Pet Consultation Report", 14, 20);
+            doc.setFontSize(12);
+            doc.text(`Pet Name: ${petName}`, 14, 30);
+            doc.text(`Animal Type: ${animalType}`, 14, 40);
+            doc.text(`Breed: ${breed}`, 14, 50);
+            doc.text(`Predicted Disease: ${disease}`, 14, 60);
+            doc.text(`Symptoms: ${symptoms}`, 14, 70);
+            
+            
+            doc.save(`${petName}_Pawsitive_X_Report.pdf`);
+        }
+    </script>
+</body>
+</html>

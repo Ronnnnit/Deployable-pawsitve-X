@@ -1,0 +1,75 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background: #f2f6fc;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+input {
+    width: 100%;
+    padding: 0.8rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button {
+    width: 100%;
+    padding: 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.result-card {
+    padding: 1.5rem;
+    background: #f9f9f9;
+    border-radius: 8px;
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+#download-report {
+    margin-top: 2rem;
+    background-color: #28a745;
+}
+
+#download-report:hover {
+    background-color: #218838;
+}
